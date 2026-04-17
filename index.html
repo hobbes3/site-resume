@@ -43,6 +43,13 @@
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             }
+
+            #talks {
+                table-layout: fixed;
+            }
+            #talks td:not([colspan="3"]) {
+                text-align: right;
+            }
         </style>
 
         <script src="https://kit.fontawesome.com/6db0bd16fb.js" crossorigin="anonymous"></script>
@@ -115,17 +122,82 @@
             <details>
                 <summary role="button">💁🏻‍♂️ My talks</summary>
                 <p>Selected to present at <a href="https://conf.splunk.com/">Splunk's annual user conferences</a> (Splunk is now part of Cisco):</p>
-                <ul>
-                    <li>.conf19: "Splunking the 2018 Mid-Term Election" - <a href="slides/2019-DEVS4G2287.pdf">slides</a> and <a href="https://youtu.be/7WCVdxc82s8">video</a></li>
-                    <li>.conf19: "Get those spreadsheets into Splunk" - <a href="slides/2019-FN2192.pdf">slides</a> and <a href="https://youtu.be/SWlIPq7GHDU">video</a></li>
-                    <li>.conf19: "Speed Up Your Searches!" - <a href="slides/2019-FN2188.pdf">slides</a> and <a href="https://youtu.be/87UAqsJPo8A">video</a></li>
-                    <li>.conf19: "Splunking refugees with help from NetHope and Cisco" - <a href="slides/2019-FN2188.pdf">slides</a> and <a href="https://youtu.be/9XG11ka28UU">video</a></li>
-                    <li>.conf17: "Splunking the 2016 Presidential Election" - <a href="slides/2017-splunking-the-2016-presidential-election-data-panel.pdf">slides</a></li>
-                    <li>.conf17: "Splunking to Fight Human Trafficking" - <a href="slides/2017-splunking-to-fight-human-trafficking.pdf">slides</a></li>
-                    <li>.conf17: "Speed Up Your Searches!" - <a href="slides/2017-speed-up-your-searches.pdf">slides</a></li>
-                    <li>.conf15: "Enhancing Dashboards with JavaScript!" - files lost 😔</li>
-                    <li>.conf14: "I Want that Cool Viz in Splunk!" - files lost 😔</li>
-                </ul>
+                <table id="talks">
+                    <tbody>
+                        <tr>
+                            <td colspan="3">🗣️ "Splunking the 2018 Mid-Term Election"</td>
+                        </tr>
+                        <tr>
+                            <td>.conf19</td>
+                            <td><a href="slides/2019-DEVS4G2287.pdf" class="secondary">slides</a></td>
+                            <td><a href="https://youtu.be/7WCVdxc82s8" class="secondary">video</a></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">🗣️ "Get those spreadsheets into Splunk"</td>
+                        </tr>
+                        <tr>
+                            <td>.conf19</td>
+                            <td><a href="slides/2019-FN2192.pdf" class="secondary">slides</a></td>
+                            <td><a href="https://youtu.be/SWlIPq7GHDU" class="secondary">video</a></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">🗣️ "Speed Up Your Searches!"</td>
+                        </tr>
+                        <tr>
+                            <td>.conf19</td>
+                            <td><a href="slides/2019-FN2188.pdf" class="secondary">slides</a></td>
+                            <td><a href="https://youtu.be/87UAqsJPo8A" class="secondary">video</a></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">🗣️ "Splunking refugees with help from NetHope and Cisco"</td>
+                        </tr>
+                        <tr>
+                            <td>.conf19</td>
+                            <td><a href="slides/2019-FN2188.pdf" class="secondary">slides</a></td>
+                            <td><a href="https://youtu.be/9XG11ka28UU" class="secondary">video</a></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">🗣️ "Splunking the 2016 Presidential Election"</td>
+                        </tr>
+                        <tr>
+                            <td>.conf17</td>
+                            <td><a href="slides/2017-splunking-the-2016-presidential-election-data-panel.pdf" class="secondary">slides</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">🗣️ "Splunking to Fight Human Trafficking"</td>
+                        </tr>
+                        <tr>
+                            <td>.conf17</td>
+                            <td><a href="slides/2017-splunking-to-fight-human-trafficking.pdf" class="secondary">slides</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">🗣️ "Speed Up Your Searches!"</td>
+                        </tr>
+                        <tr>
+                            <td>.conf17</td>
+                            <td><a href="slides/2017-speed-up-your-searches.pdf" class="secondary">slides</a></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">🗣️ "Enhancing Dashboards with JavaScript!"</td>
+                        </tr>
+                        <tr>
+                            <td>.conf15</td>
+                            <td>files lost 😔</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">🗣️ "I Want that Cool Viz in Splunk!"</td>
+                        </tr>
+                        <tr>
+                            <td>.conf14</td>
+                            <td>files lost 😔</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
             </details>
             <details>
                 <summary role="button">📸 My likes (pics)</summary>
@@ -136,7 +208,6 @@
                 <summary role="button">📃 My resume</summary>
                 <p>View my resume in a <a href="hobbes3_resume_v8.6.pdf">PDF format</a> (ready for printing or copy-and-paste).</p>
                 <p>
-                    My other links:<br>
                     <i class="fa-brands fa-linkedin"></i><a href="https://www.linkedin.com/in/hobbes3/">LinkedIn</a><br>
                     <i class="fa-brands fa-github"></i><a href="https://github.com/hobbes3">Github</a><br>
                     <i class="fa-solid fa-envelope"></i><a href="mailto:hobbes3@gmail.com?subject=I%20saw%20your%20resume%20online.">hobbes3@gmail.com</a>
