@@ -44,11 +44,18 @@
                 grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             }
 
+            #tools td:not([colspan="2"]) {
+                text-indent: 0.5em;
+            }
+
             #talks {
                 table-layout: fixed;
             }
             #talks td:not([colspan="3"]) {
                 text-align: right;
+            }
+            #talks td[colspan="2"] {
+                text-align: center;
             }
         </style>
 
@@ -84,7 +91,7 @@
                 </article>
                 <article>
                     <header>Tools used to build this site:</header>
-                    <table>
+                    <table id="tools">
                         <tbody>
                             <tr>
                                 <td colspan="2">🆓 Free</td>
@@ -116,7 +123,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <footer>Source files at my <a href="https://github.com/hobbes3/resume" class="secondary">GitHub repo</a>.</footer>
+                    <footer>Source files at my <a href="https://github.com/hobbes3/site-resume" class="secondary">GitHub repo</a>.</footer>
                 </article>
                 <p>My other code and projects: <i class="fa-brands fa-github"></i><a href="https://github.com/hobbes3">Github</a></p>
             </details>
@@ -186,16 +193,14 @@
                         </tr>
                         <tr>
                             <td>.conf15</td>
-                            <td>files lost 😔</td>
-                            <td></td>
+                            <td colspan="2">files lost 😔</td>
                         </tr>
                         <tr>
                             <td colspan="3">🗣️ "I Want that Cool Viz in Splunk!"</td>
                         </tr>
                         <tr>
                             <td>.conf14</td>
-                            <td>files lost 😔</td>
-                            <td></td>
+                            <td colspan="2">files lost 😔</td>
                         </tr>
                     </tbody>
                 </table>
