@@ -343,6 +343,16 @@
               <br />
               Click any job (e.g., ✅ misspell) for details or scroll
               horizontally to view all jobs.
+              <ul>
+                <li>
+                  Security scanning (<code>codeql</code>,
+                  <code>syft-grype</code>, and <code>stackhawk</code>) and
+                  <code>lighthouse</code> performance audits are deferred during
+                  <span data-tippy-content="Pull Requests">PRs</span> to
+                  optimize pipeline speed and run only upon merging to
+                  <code>main</code>.
+                </li>
+              </ul>
             </li>
           </ul>
           <!-- Interactive Image Wrapper -->

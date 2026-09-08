@@ -10,7 +10,7 @@
   "schedule": ["before 4am on monday"],
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
       "automerge": true
