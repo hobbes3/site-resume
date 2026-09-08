@@ -208,6 +208,7 @@ jobs:
           npx --no-install html-validate "dist/**/*.html"
   codeql:
     needs: [build]
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -227,6 +228,7 @@ jobs:
       - uses: github/codeql-action/analyze@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
   syft-grype:
     needs: [build]
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -285,6 +287,7 @@ jobs:
           content-filepath: ./dist/lychee/out.md
           labels: report, automated issue
   lighthouse:
+    if: github.event_name != 'pull_request'
     needs: [build]
     runs-on: ubuntu-latest
     permissions:
@@ -355,6 +358,7 @@ jobs:
 
   stackhawk:
     needs: [deploy]
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: read

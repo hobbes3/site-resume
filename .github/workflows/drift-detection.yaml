@@ -13,6 +13,7 @@ jobs:
   detect-drift:
     runs-on: ubuntu-latest
     env:
+      AWS_PROFILE: ""
       TF_VAR_account_id: ecb38e99c15d28c64e8794aeca162eac
       TF_VAR_zone_id: f3528c90e0b1c9516a279b76be10da07
       TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
