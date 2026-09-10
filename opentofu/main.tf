@@ -12,11 +12,10 @@ terraform {
 
   # S3-compatible backend for OpenTofu state storage
   backend "s3" {
-    bucket                      = "site-resume-tfstate"
-    key                         = "cloudflare/terraform.tfstate"
-    region                      = "auto"
-    profile                     = "site-resume"
-    endpoints                   = { 
+    bucket = "site-resume-tfstate"
+    key    = "cloudflare/terraform.tfstate"
+    region = "auto"
+    endpoints = {
       s3 = "https://ecb38e99c15d28c64e8794aeca162eac.r2.cloudflarestorage.com"
     }
     skip_credentials_validation = true
@@ -284,14 +283,14 @@ resource "cloudflare_ruleset" "response_header_transforms" {
 
       action_parameters = {
         headers = {
-          "Content-Security-Policy"   = { operation = "set", value = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self';" }
+          "Content-Security-Policy"      = { operation = "set", value = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self';" }
           "Access-Control-Allow-Origin"  = { operation = "set", value = "*" }
           "Access-Control-Allow-Methods" = { operation = "set", value = "GET, HEAD, OPTIONS" }
-          "X-Frame-Options"           = { operation = "set", value = "DENY" }
-          "X-Content-Type-Options"    = { operation = "set", value = "nosniff" }
-          "Referrer-Policy"           = { operation = "set", value = "strict-origin-when-cross-origin" }
-          "Permissions-Policy"        = { operation = "set", value = "camera=(), microphone=(), geolocation=(), payment=()" }
-          "Strict-Transport-Security" = { operation = "set", value = "max-age=31536000; includeSubDomains; preload" }
+          "X-Frame-Options"              = { operation = "set", value = "DENY" }
+          "X-Content-Type-Options"       = { operation = "set", value = "nosniff" }
+          "Referrer-Policy"              = { operation = "set", value = "strict-origin-when-cross-origin" }
+          "Permissions-Policy"           = { operation = "set", value = "camera=(), microphone=(), geolocation=(), payment=()" }
+          "Strict-Transport-Security"    = { operation = "set", value = "max-age=31536000; includeSubDomains; preload" }
         }
       }
     }

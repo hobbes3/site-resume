@@ -9,3 +9,14 @@
 [![Lighthouse Report](https://img.shields.io/badge/Lighthouse-Report-informational?logo=lighthouse&logoColor=white)](https://hobbes3.com/reports/lhr-latest.html)
 
 My personal portfolio and resume website built with lightweight semantic HTML5, TypeScript, and SASS, bundled with Vite.
+
+## OpenTofu
+
+For local infrastructure commands, use the `site-resume` profile from `~/.aws/credentials`:
+
+```sh
+export AWS_PROFILE=site-resume
+cd opentofu
+tofu init -reconfigure
+tofu plan
+```
