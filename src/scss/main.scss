@@ -55,6 +55,10 @@ details summary {
   overflow-anchor: none;
 }
 
+main > details:first-of-type > summary {
+  margin-top: 0.5rem;
+}
+
 [data-tippy-content]:not(a) {
   text-decoration: underline dotted;
   text-underline-offset: 0.1em;
