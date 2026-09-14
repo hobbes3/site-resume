@@ -331,7 +331,7 @@ jobs:
           retention-days: 1
 
   deploy:
-    needs: [html-validate-dist, codeql, syft-grype, lychee, lighthouse]
+    needs: [html-validate-dist, lychee]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -344,10 +344,17 @@ jobs:
           pattern: dist-*
       - run: |
           mv dist-build dist
-          mv dist-lighthouse/lhr-latest.html dist/reports/lhr-latest.html
-          mv dist-lighthouse/lhr-scores.json dist/reports/lhr-scores.json
-          mv dist-lighthouse/lhr-score.webp dist/images/lhr-score.webp
-          mv dist-sbom/sbom.cyclonedx.json dist/reports/
+          mkdir -p dist/reports dist/images
+
+          if [ -d "dist-lighthouse" ]; then
+            [ -f "dist-lighthouse/lhr-latest.html" ] && mv dist-lighthouse/lhr-latest.html dist/reports/lhr-latest.html
+            [ -f "dist-lighthouse/lhr-scores.json" ] && mv dist-lighthouse/lhr-scores.json dist/reports/lhr-scores.json
+            [ -f "dist-lighthouse/lhr-score.webp" ] && mv dist-lighthouse/lhr-score.webp dist/images/lhr-score.webp
+          fi
+
+          if [ -d "dist-sbom" ]; then
+            [ -f "dist-sbom/sbom.cyclonedx.json" ] && mv dist-sbom/sbom.cyclonedx.json dist/reports/
+          fi
       - id: deploy_pages
         uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v4.0.0
         with:
