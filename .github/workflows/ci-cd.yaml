@@ -330,8 +330,16 @@ jobs:
           include-hidden-files: true
           retention-days: 1
 
+  reports-gate:
+    name: Reports Gate
+    needs: [lighthouse, syft-grype]
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Report generation completed or skipped cleanly."
+
   deploy:
-    needs: [html-validate-dist, lychee]
+    needs: [html-validate-dist, lychee, reports-gate]
     runs-on: ubuntu-latest
     permissions:
       contents: read
