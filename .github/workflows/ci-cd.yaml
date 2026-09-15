@@ -330,15 +330,14 @@ jobs:
           include-hidden-files: true
           retention-days: 1
 
-  reports-gate:
-    needs: [lighthouse, syft-grype, codeql]
-    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Report generation completed or skipped cleanly."
-
   deploy:
-    needs: [html-validate-dist, lychee, reports-gate]
+    needs: [html-validate-dist, lychee, lighthouse, syft-grype, codeql]
+    if: |
+      always() &&
+      needs.html-validate-dist.result == 'success' &&
+      needs.lychee.result == 'success' &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled')
     runs-on: ubuntu-latest
     permissions:
       contents: read
