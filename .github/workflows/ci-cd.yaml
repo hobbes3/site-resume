@@ -331,7 +331,13 @@ jobs:
           retention-days: 1
 
   deploy:
-    needs: [html-validate-dist, codeql, syft-grype, lychee, lighthouse]
+    needs: [html-validate-dist, lychee, lighthouse, syft-grype, codeql]
+    if: |
+      always() &&
+      needs.html-validate-dist.result == 'success' &&
+      needs.lychee.result == 'success' &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled')
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -341,13 +347,30 @@ jobs:
     steps:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          pattern: dist-*
+          name: dist-build
+          path: dist
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        if: needs.lighthouse.result == 'success'
+        with:
+          name: dist-lighthouse
+          path: dist-lighthouse
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        if: needs.syft-grype.result == 'success'
+        with:
+          name: dist-sbom
+          path: dist-sbom
       - run: |
-          mv dist-build dist
-          mv dist-lighthouse/lhr-latest.html dist/reports/lhr-latest.html
-          mv dist-lighthouse/lhr-scores.json dist/reports/lhr-scores.json
-          mv dist-lighthouse/lhr-score.webp dist/images/lhr-score.webp
-          mv dist-sbom/sbom.cyclonedx.json dist/reports/
+          mkdir -p dist/reports dist/images
+
+          if [ -d "dist-lighthouse" ]; then
+            [ -f "dist-lighthouse/lhr-latest.html" ] && mv dist-lighthouse/lhr-latest.html dist/reports/lhr-latest.html
+            [ -f "dist-lighthouse/lhr-scores.json" ] && mv dist-lighthouse/lhr-scores.json dist/reports/lhr-scores.json
+            [ -f "dist-lighthouse/lhr-score.webp" ] && mv dist-lighthouse/lhr-score.webp dist/images/lhr-score.webp
+          fi
+
+          if [ -d "dist-sbom" ]; then
+            [ -f "dist-sbom/sbom.cyclonedx.json" ] && mv dist-sbom/sbom.cyclonedx.json dist/reports/
+          fi
       - id: deploy_pages
         uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v4.0.0
         with:

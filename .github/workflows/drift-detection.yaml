@@ -24,13 +24,18 @@ jobs:
         with:
           persist-credentials: false
           ref: ${{ github.event.repository.default_branch }}
+
       - uses: opentofu/setup-opentofu@a1320f892987e89d278cc92dc5adc984fb93aca4 # v2.0.2
         with:
           tofu_version: "1.12.6"
           tofu_wrapper: false
-      - run: tofu init -input=false -no-color
+
+      - name: Initialize OpenTofu
+        run: tofu init -input=false -no-color
         working-directory: opentofu
-      - id: drift
+
+      - name: Detect Infrastructure Drift
+        id: drift
         run: |
           set +e
           tofu plan -detailed-exitcode -no-color -input=false > drift_plan.txt 2>&1
@@ -42,9 +47,11 @@ jobs:
             echo "DRIFT_DETECTED=true" >> "$GITHUB_ENV"
           elif [ "$exit_code" -ne 0 ]; then
             echo "::error::OpenTofu plan failed with exit code $exit_code"
+            cat drift_plan.txt
             exit "$exit_code"
           fi
         working-directory: opentofu
+
       - if: env.DRIFT_DETECTED == 'true'
         id: find-issue
         run: |
@@ -58,6 +65,7 @@ jobs:
           echo "issue_number=$issue_number" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - if: env.DRIFT_DETECTED == 'true'
         uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710 # v6.0.0
         with:
