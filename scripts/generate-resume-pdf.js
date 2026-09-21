@@ -2,13 +2,15 @@ import puppeteer from "puppeteer-core";
 import path from "node:path";
 import fs from "node:fs/promises";
 import { fileURLToPath } from "node:url";
-import { preview } from "vite";
+import { build, preview } from "vite";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, "..");
 const distDir = path.join(projectRoot, "dist");
 const resumesDir = path.join(distDir, "resumes");
 const reportsDir = path.join(distDir, "reports");
+
+await build({ root: projectRoot });
 
 await fs.mkdir(resumesDir, { recursive: true });
 await fs.mkdir(reportsDir, { recursive: true });
@@ -22,7 +24,7 @@ const server = await preview({
   },
 });
 
-const previewUrl = server.resolvedUrls.local[0] || "http://localhost:4173/";
+const previewUrl = server.resolvedUrls.local[0] || "http://localhost:5173/";
 
 const chromePath =
   process.platform === "darwin"
@@ -83,12 +85,10 @@ try {
   });
 
   // Relative paths for the standalone saved HTML report
-  const relativeCss = inlineCss
-    // Replace absolute localhost font URLs or absolute path font URLs with relative ones
-    .replace(/url\((['"]?)http:\/\/localhost:\d+\/fonts\//g, "url($1../fonts/")
-    .replace(/url\((['"]?)\/fonts\//g, "url($1../fonts/")
-    // Replace absolute assets URLs with relative ones
-    .replace(/url\((['"]?)\/assets\//g, "url($1../assets/");
+  const relativeCss = inlineCss.replace(
+    /url\((['"]?)\/assets\//g,
+    "url($1../assets/",
+  );
 
   const htmlContent = `<!DOCTYPE html>
 <html lang="en">
@@ -112,8 +112,8 @@ ${relativeCss}
 
   // 3. For PDF generation, set isolated HTML content with absolute HTTP URLs
   const absoluteCss = inlineCss.replace(
-    /url\((['"]?)\/?fonts\//g,
-    `url($1${previewUrl}fonts/`,
+    /url\((['"]?)\/assets\//g,
+    `url($1${previewUrl}assets/`,
   );
 
   // Use domcontentloaded + explicit 10s timeout to prevent networkidle hangs

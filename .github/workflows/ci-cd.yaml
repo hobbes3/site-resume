@@ -347,9 +347,19 @@ jobs:
     steps:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          pattern: dist-*
+          name: dist-build
+          path: dist
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        if: needs.lighthouse.result == 'success'
+        with:
+          name: dist-lighthouse
+          path: dist-lighthouse
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        if: needs.syft-grype.result == 'success'
+        with:
+          name: dist-sbom
+          path: dist-sbom
       - run: |
-          mv dist-build dist
           mkdir -p dist/reports dist/images
 
           if [ -d "dist-lighthouse" ]; then
