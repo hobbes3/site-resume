@@ -16,7 +16,6 @@ jobs:
       TF_VAR_account_id: ecb38e99c15d28c64e8794aeca162eac
       TF_VAR_zone_id: f3528c90e0b1c9516a279b76be10da07
       TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      TF_VAR_github_client_secret: ${{ secrets.GITHUB_CLIENT_SECRET }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ENDPOINT_URL_S3: https://ecb38e99c15d28c64e8794aeca162eac.r2.cloudflarestorage.com
@@ -31,12 +30,12 @@ jobs:
           tofu_version: "1.12.6"
           tofu_wrapper: false
 
-      - name: Initialize OpenTofu
-        run: tofu init -input=false -no-color
+      - run: tofu init -input=false -no-color
         working-directory: opentofu
 
-      - name: Detect Infrastructure Drift
-        id: drift
+      - id: drift
+        env:
+          TF_VAR_github_client_secret: ${{ secrets.GITHUB_CLIENT_SECRET }}
         run: |
           set +e
           tofu plan -detailed-exitcode -no-color -input=false > drift_plan.txt 2>&1
