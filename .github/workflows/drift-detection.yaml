@@ -30,12 +30,12 @@ jobs:
           tofu_version: "1.12.6"
           tofu_wrapper: false
 
-      - name: Initialize OpenTofu
-        run: tofu init -input=false -no-color
+      - run: tofu init -input=false -no-color
         working-directory: opentofu
 
-      - name: Detect Infrastructure Drift
-        id: drift
+      - id: drift
+        env:
+          TF_VAR_github_client_secret: ${{ secrets.GITHUB_CLIENT_SECRET }}
         run: |
           set +e
           tofu plan -detailed-exitcode -no-color -input=false > drift_plan.txt 2>&1
