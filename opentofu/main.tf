@@ -1,12 +1,12 @@
 # PROVIDER CONFIGURATION & VARIABLES
 
 terraform {
-  required_version = "1.17.1"
+  required_version = "1.17.2"
 
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "5.28.1"
+      version = "5.29.0"
     }
   }
 
